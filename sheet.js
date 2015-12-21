@@ -121,6 +121,22 @@ function EvaluateConcat(value){
 }
 
 function Evaluate(value){
+	function SUM(){
+		var total = 0.0;
+		for(var i = 0; i < arguments.length; i++)
+		{	
+			var val = arguments[i];
+			if (typeof val=="number")
+			{
+				total += val;
+			}
+		}
+		
+		return total;
+	}
+	
+	// lowercase version
+	var sum = SUM; 
 	with (DATA) {
 		with (Math) {
 			return eval(value);
@@ -135,7 +151,7 @@ Computerize();
     INPUTS.forEach(function(elm) { try { elm.value = DATA[elm.id]; } catch(e) {} });
 	var totals = [].forEach.call(document.querySelectorAll(".total"), function(span) {
 			var total = 0.0;
-			for (row=1; row < Rows; row ++)
+			for (var row=1; row < Rows; row ++)
 			{
 				var id= span.id.slice(0,1) + row;
 				var val = DATA[id];

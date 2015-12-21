@@ -9,11 +9,31 @@
 <!-- from http://jsfiddle.net/ondras/hYfN3/ -->
 <h1>Tiny spreadsheet</h1>
 <table id="sheet"></table>
+
+<section>
+<h3>Totals</h3>
+The bottom line totals the columns. 
+</section>
+<section>
+<h3>Calculations</h3>
+Calculated fields start with =. 
+Use any JavaScript operators like = PI / 2
+</section>
+<section>
+<h3>References</h3>
+Refer to any other cell with its column and row like =A3
+Specify a range with syntax like =max(A3:B3)
+</section>
+<section>
+<h3>&amp;</h3>
+use &amp; to add a word. =A3 & " hours"
+</section>
 <details>
-<summary><h3>available Math functions</h3></summary>
+<summary><h3>Use any JavaScript Math function</h3></summary>
 <ul id="functionList">
-<li>abs()  Absolute value</li>
-<li>min()  Smallest value </li>
+<li>SUM(123, A3)  Total of numbers in the range, or list. </li>
+<li>abs(X)  Absolute value</li>
+<li>min(A1:A5)  Smallest value of a range or list.</li>
 <li>floor(X) largest integer less than or equal to X</li>
 <li>random() Random number between 0 and 1</li>
 <li>sin(X) sine. <b>cos</b>ine and <b>tan</b>gent are also available.</li>
