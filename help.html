@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="sheet.css"/>
+<title>Tiny spreadsheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+
+<section>
+<h3>Totals</h3>
+The bottom line totals the columns. 
+</section>
+<section>
+<h3>Calculations</h3>
+Calculated fields start with =. 
+Use any JavaScript operators like = PI / 2
+</section>
+<section>
+<h3>References</h3>
+Refer to any other cell with its column and row like =A3
+Specify a range with syntax like =max(A3:B3)
+</section>
+<section>
+<h3>&amp;</h3>
+Use &amp; to add words. i.e. =A3 & " hours"
+</section>
+<details>
+<summary><h3>Example JavaScript Math functions</h3></summary>
+<ul id="functionList">
+<li>SUM(123, A3)  Total of numbers in the range, or list. </li>
+<li>abs(X)  Absolute value</li>
+<li>min(A1:A5)  Smallest value of a range or list.</li>
+<li>floor(X) largest integer less than or equal to X</li>
+<li>random() Random number between 0 and 1</li>
+<li>sin(X) sine. <b>cos</b>ine and <b>tan</b>gent are also available.</li>
+</ul>
+<h3>Example Math constants</h3>
+<ul>
+<li>PI  3.14</li>
+<li>E  Euler's constant 2.718</li>
+</ul>
+
+All the functions and constants from the browser's Math library are available. 
+See <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FMath">MDN doc</a>
+</details>
+</body>
