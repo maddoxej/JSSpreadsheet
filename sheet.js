@@ -1,15 +1,24 @@
 (function(){
-
 var Rows = 10;
 var Columns = 8
 
+var localStorage = window.localStorage || {};
+
 function CreateTable(){
 	var sheet = document.querySelector("table#sheet")
-	for (var i=0; i< Rows; i++) {
+	var headerRow = sheet.insertRow(-1);
+	var cornerCell = headerRow.insertCell(-1);
+	for (var j=1; j< Columns; j++) {
+		var letter = String.fromCharCode("A".charCodeAt(0)+j-1);
+		headerRow.insertCell(-1).innerHTML = letter;
+	}
+	
+	for (var i=1; i< Rows; i++) {
 		var row = sheet.insertRow(-1);
-		for (var j=0; j< Columns; j++) {
+		row.insertCell(-1).innerHTML = i;
+		for (var j=1; j< Columns; j++) {
 			var letter = String.fromCharCode("A".charCodeAt(0)+j-1);
-			row.insertCell(-1).innerHTML = i&&j ? "<input id='"+ letter+i +"'/>" : i||letter;
+			row.insertCell(-1).innerHTML = "<input id='"+ letter+i +"'/><span class='hiddenForClipboard'>,</span>"; 
 		}
 	}
 	var foot = sheet.createTFoot();
@@ -24,7 +33,7 @@ function CreateTable(){
 var DATA={};
 var INPUTS;
 function Computerize(){
-	INPUTS=[].slice.call(document.querySelectorAll("input"));
+	INPUTS=[].slice.call(document.querySelectorAll("#sheet input"));
 	INPUTS.forEach(function(elm) {
 		elm.onfocus = function(e) {
 			e.target.OldValue = e.target.value;
@@ -44,12 +53,12 @@ function Computerize(){
 			}
 		};
 		var getter = function() {
-			var enteredValue = localStorage[elm.id] || "";
+			var storedValue = localStorage[elm.id] || "";
 			var calculatedValue;
-			if (enteredValue.charAt(0) == "=") {
-				calculatedValue = EvaluateConcat(enteredValue.slice(1));
+			if (storedValue.charAt(0) == "=") {
+				calculatedValue = EvaluateConcat(storedValue.slice(1));
 			} else {
-				calculatedValue = enteredValue;
+				calculatedValue = storedValue;
 			}
 			
 			return StringOrNumber(calculatedValue);
@@ -148,7 +157,14 @@ CreateTable();
 Computerize();
 
 (window.computeAll = function() {
-    INPUTS.forEach(function(elm) { try { elm.value = DATA[elm.id]; } catch(e) {} });
+    INPUTS.forEach(function(elm) { 
+		try { 
+			elm.value = DATA[elm.id]; 
+			elm.nextSibling.textContent=String(elm.value) + ",";
+		} catch(e) {
+			console.log(e);
+		}
+	});
 	var totals = [].forEach.call(document.querySelectorAll(".total"), function(span) {
 			var total = 0.0;
 			for (var row=1; row < Rows; row ++)

@@ -4,6 +4,15 @@
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="sheet.css">
 <title>Tiny spreadsheet</title>
+<style>
+
+	.hiddenForClipboard 
+	{
+		position:absolute;
+		left: -99999px;
+	}
+
+</style>
 </head>
 <body>
 <!-- from http://jsfiddle.net/ondras/hYfN3/ -->
@@ -26,10 +35,10 @@ Specify a range with syntax like =max(A3:B3)
 </section>
 <section>
 <h3>&amp;</h3>
-use &amp; to add a word. =A3 & " hours"
+Use &amp; to add words. i.e. =A3 & " hours"
 </section>
 <details>
-<summary><h3>Use any JavaScript Math function</h3></summary>
+<summary><h3>Example JavaScript Math functions</h3></summary>
 <ul id="functionList">
 <li>SUM(123, A3)  Total of numbers in the range, or list. </li>
 <li>abs(X)  Absolute value</li>
@@ -38,7 +47,7 @@ use &amp; to add a word. =A3 & " hours"
 <li>random() Random number between 0 and 1</li>
 <li>sin(X) sine. <b>cos</b>ine and <b>tan</b>gent are also available.</li>
 </ul>
-<h3>Math constants</h3>
+<h3>Example Math constants</h3>
 <ul>
 <li>PI  3.14</li>
 <li>E  Euler's constant 2.718</li>
