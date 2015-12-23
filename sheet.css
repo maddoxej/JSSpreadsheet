@@ -32,3 +32,9 @@ tr:first-child td, td:first-child {
     font-weight: bold;
     text-align: center;
 }
+
+.hiddenForClipboard 
+{
+	position:absolute;
+	left: -99999px;
+}
