@@ -1,13 +1,19 @@
 (function(){
-var Rows = 10;
-var Columns = 8
 
 var localStorage = window.localStorage || {};
+
+var Rows = localStorage.Rows || Math.floor((window.innerHeight - 100) / 22);
+var Columns = localStorage.Columns || Math.max(2, Math.floor((window.innerWidth - 14) / 182) + 1);
+localStorage.Rows = Rows;
+localStorage.Columns = Columns;
+
 
 function CreateTable(){
 	var sheet = document.querySelector("table#sheet")
 	var headerRow = sheet.insertRow(-1);
 	var cornerCell = headerRow.insertCell(-1);
+	var hiddenSpan =  "<span class='hiddenForClipboard'></span>";
+	
 	for (var j=1; j< Columns; j++) {
 		var letter = String.fromCharCode("A".charCodeAt(0)+j-1);
 		headerRow.insertCell(-1).innerHTML = letter;
@@ -18,15 +24,16 @@ function CreateTable(){
 		row.insertCell(-1).innerHTML = i;
 		for (var j=1; j< Columns; j++) {
 			var letter = String.fromCharCode("A".charCodeAt(0)+j-1);
-			row.insertCell(-1).innerHTML = "<input id='"+ letter+i +"'/><span class='hiddenForClipboard'>,</span>"; 
+			row.insertCell(-1).innerHTML = "<input id='"+ letter+i +"'/>" + hiddenSpan;
 		}
 	}
+	
 	var foot = sheet.createTFoot();
 	var row = foot.insertRow(-1);
-	row.insertCell(-1); // empty cell
+	row.insertCell(-1).innerHTML="&Sigma;";
 	for (var j=1; j< Columns; j++) {
 		var letter = String.fromCharCode("A".charCodeAt(0)+j-1);
-		row.insertCell(-1).innerHTML = "<span id='" + letter + "Total' class='total'/>";
+		row.insertCell(-1).innerHTML = "<span id='" + letter + "Total' class='total'></span>";
 	}
 }
 
@@ -45,6 +52,7 @@ function Computerize(){
 			if (e.target.Changed){
 				e.target.Changed = false;
 				localStorage[e.target.id] = e.target.value;
+				e.target.title = null; // clear any error message. 
 				computeAll();
 			}
 			else
@@ -56,7 +64,15 @@ function Computerize(){
 			var storedValue = localStorage[elm.id] || "";
 			var calculatedValue;
 			if (storedValue.charAt(0) == "=") {
-				calculatedValue = EvaluateConcat(storedValue.slice(1));
+				try{
+					calculatedValue = EvaluateConcat(storedValue.slice(1));
+				}
+				catch (e)
+				{
+					calculatedValue = "#Error"; 
+					elm.title = e;
+					console.log("Error in " + elm.id + " '" + e + "' calculating " + storedValue)
+				}
 			} else {
 				calculatedValue = storedValue;
 			}
@@ -90,17 +106,17 @@ function EvaluateRange(value){
 			var endRow = parseInt(endDigit);
 			if (startCol > endCol || startCol > Columns)
 			{
-				return match;
+				throw "invalid range. start > end";
 			}
 			
 			if (endCol > Columns)
 			{
-				return match;
+				endCol = Columns;
 			}
 			
 			if (endRow > Rows)
 			{
-				return match;
+				endRow = Rows;
 			}
 			
 			var result = [];
@@ -159,8 +175,12 @@ Computerize();
 (window.computeAll = function() {
     INPUTS.forEach(function(elm) { 
 		try { 
+			// call the getter, display the calculated value. 
 			elm.value = DATA[elm.id]; 
-			elm.nextSibling.textContent=String(elm.value) + ",";
+			if (elm.nextSibling){
+				// update a hidden span for copying to the clipboard. 
+				elm.nextSibling.textContent=String(elm.value);
+			}
 		} catch(e) {
 			console.log(e);
 		}
