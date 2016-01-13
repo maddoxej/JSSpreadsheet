@@ -60,6 +60,13 @@ function Computerize(){
 				e.target.value = e.target.OldValue;
 			}
 		};
+		elm.onkeypress = function(event) {
+			var charCode = (event.charCode) ? event.charCode :
+				((event.which) ? event.which : event.keyCode);
+			if (charCode == 13 ) {
+				event.target.blur();
+			}
+		};
 		var getter = function() {
 			var storedValue = localStorage[elm.id] || "";
 			var calculatedValue;
